@@ -28,6 +28,7 @@ func _ready():
 func _physics_process(delta):
 	if Input.is_action_just_pressed("dwarf_ability") and ability_detector.has_overlapping_bodies():
 		is_ability_active = !is_ability_active
+		velocity.y = 0
 	if !is_ability_active:
 		if not is_on_floor():
 			velocity.y += CHARACTER_GRAVITY_MULTIPLIER * gravity * delta
