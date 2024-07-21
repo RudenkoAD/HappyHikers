@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dkdrldw1ccjx1"]
+[gd_scene load_steps=7 format=3 uid="uid://0pykwno8cmyk"]
 
 [ext_resource type="PackedScene" uid="uid://bty37oswwj156" path="res://scenes/elf.tscn" id="1_w7ia1"]
 [ext_resource type="Texture2D" uid="uid://bqeexrshum5p5" path="res://assets/Magic-Cliffs-Gamekit/Environment/PNG/tileset.png" id="2_41mji"]
-[ext_resource type="PackedScene" uid="uid://df3r0teswvi15" path="res://scenes/dwarf.tscn" id="3_cxna6"]
+[ext_resource type="PackedScene" uid="uid://bac3g5amss8ut" path="res://scenes/dwarf.tscn" id="3_cxna6"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cgmmu"]
 
