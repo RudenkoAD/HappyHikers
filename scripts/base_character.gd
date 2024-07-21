@@ -7,12 +7,20 @@ const JUMP_VELOCITY = -200.0 * 1.5
 const DOWN_ACCELERATION = 1000.0 * 1.5
 const JUMP_ACCELERATION = -3000.0 * 1.5
 
+@export var CHARACTER_GRAVITY_MULTIPLIER: float
+@export var CHARACTER_NAME: String
+
+var controls = {}
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var starting_jump := false
 var timer
 
-func _init():
+func _ready():
+	for dir in ["up", "down", "left", "right"]:
+		controls[dir] = CHARACTER_NAME + "_" + dir
+		print(controls[dir])
 	timer = Timer.new()
 	add_child(timer)
 	timer.one_shot = true
@@ -22,21 +30,21 @@ func _init():
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		velocity.y += CHARACTER_GRAVITY_MULTIPLIER * gravity * delta
 
 	# Handle jump.
-	if Input.is_action_pressed("ui_accept") and starting_jump:
+	if Input.is_action_pressed(controls["up"]) and starting_jump:
 		velocity.y += JUMP_ACCELERATION * delta
 	
-	if Input.is_action_pressed("ui_down") and not is_on_floor():
+	if Input.is_action_pressed(controls["down"]) and not is_on_floor():
 		velocity.y += DOWN_ACCELERATION * delta
 	
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed(controls["up"]) and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		starting_jump = true
 		timer.start(0.1)
 	
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var direction = Input.get_axis(controls["left"], controls["right"])
 	if direction:
 		velocity.x = direction * SPEED
 	else:

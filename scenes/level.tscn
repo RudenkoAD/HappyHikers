@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://0pykwno8cmyk"]
+[gd_scene load_steps=7 format=3 uid="uid://dkdrldw1ccjx1"]
 
 [ext_resource type="PackedScene" uid="uid://bty37oswwj156" path="res://scenes/elf.tscn" id="1_w7ia1"]
 [ext_resource type="Texture2D" uid="uid://bqeexrshum5p5" path="res://assets/Magic-Cliffs-Gamekit/Environment/PNG/tileset.png" id="2_41mji"]
+[ext_resource type="PackedScene" uid="uid://df3r0teswvi15" path="res://scenes/dwarf.tscn" id="3_cxna6"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cgmmu"]
 
@@ -202,4 +203,9 @@ format = 2
 layer_0/tile_data = PackedInt32Array(786437, 131073, 11, 393227, 131073, 11, 393217, 196609, 7, 589830, 589825, 6)
 
 [node name="Elf" parent="." instance=ExtResource("1_w7ia1")]
-scale = Vector2(2, 2)
+position = Vector2(22, 7)
+scale = Vector2(5, 5)
+
+[node name="Dwarf" parent="." instance=ExtResource("3_cxna6")]
+position = Vector2(48, 23)
+scale = Vector2(0.25, 0.25)

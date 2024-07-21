@@ -1,3 +1,3 @@
 extends BaseCharacter
-class_name Elf
+class_name dwarf
 
