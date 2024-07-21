@@ -195,11 +195,11 @@ position = Vector2(303, 216)
 position = Vector2(7, 433)
 shape = SubResource("WorldBoundaryShape2D_cgmmu")
 
-[node name="Elf" parent="." instance=ExtResource("1_w7ia1")]
-scale = Vector2(4, 4)
-
 [node name="TileMap" type="TileMap" parent="."]
 scale = Vector2(2, 2)
 tile_set = SubResource("TileSet_egvob")
 format = 2
 layer_0/tile_data = PackedInt32Array(786437, 131073, 11, 393227, 131073, 11, 393217, 196609, 7, 589830, 589825, 6)
+
+[node name="Elf" parent="." instance=ExtResource("1_w7ia1")]
+scale = Vector2(2, 2)
