@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bac3g5amss8ut"]
+[gd_scene load_steps=19 format=3 uid="uid://bac3g5amss8ut"]
 
 [ext_resource type="Script" path="res://scripts/dwarf.gd" id="1_fl8bp"]
 [ext_resource type="SpriteFrames" uid="uid://t143lmkytev" path="res://resources/dwarf.tres" id="2_xpt71"]
@@ -10,25 +10,142 @@ size = Vector2(11, 18)
 radius = 2.0
 height = 12.0
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j7iqi"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7wrrk"]
+animation = &"swing"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ief0a"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wyh0d"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g7hl5"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_n2jnp"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_twxlt"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4xoli"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dfk43"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_uuwxy"]
+states/End/position = Vector2(886, 107)
+states/Start/position = Vector2(202, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_j7iqi")
+states/idle/position = Vector2(421, 107)
+states/swing/node = SubResource("AnimationNodeAnimation_7wrrk")
+states/swing/position = Vector2(665, -35)
+states/walk/node = SubResource("AnimationNodeAnimation_ief0a")
+states/walk/position = Vector2(665, 107)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_wyh0d"), "idle", "swing", SubResource("AnimationNodeStateMachineTransition_g7hl5"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_n2jnp"), "walk", "swing", SubResource("AnimationNodeStateMachineTransition_twxlt"), "swing", "idle", SubResource("AnimationNodeStateMachineTransition_4xoli"), "swing", "walk", SubResource("AnimationNodeStateMachineTransition_dfk43")]
+graph_offset = Vector2(-76, -117)
+
+[sub_resource type="Animation" id="Animation_0i3ad"]
+resource_name = "swing"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"grip"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_7x5qx"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+
+[sub_resource type="Animation" id="Animation_032vc"]
+resource_name = "walk"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"walk"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qo8jx"]
+_data = {
+"idle": SubResource("Animation_7x5qx"),
+"swing": SubResource("Animation_0i3ad"),
+"walk": SubResource("Animation_032vc")
+}
+
 [node name="Dwarf" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_fl8bp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 4)
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_e2vbi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0.5, 0)
+rotation = 6.28319
 sprite_frames = ExtResource("2_xpt71")
 animation = &"grip"
-frame = 4
-frame_progress = 1.0
 
-[node name="AbilityDetector" type="Area2D" parent="."]
+[node name="anchor" type="Node2D" parent="."]
+rotation = 1.5708
+
+[node name="AbilityDetector" type="Area2D" parent="anchor"]
+rotation = -1.5708
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AbilityDetector"]
-position = Vector2(7, 5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="anchor/AbilityDetector"]
+position = Vector2(7.5, 5)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_avkgk")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../AnimatedSprite2D")
+tree_root = SubResource("AnimationNodeStateMachine_uuwxy")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+deterministic = true
+root_node = NodePath("../AnimatedSprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_qo8jx")
+}
