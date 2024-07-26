@@ -207,5 +207,6 @@ position = Vector2(22, 7)
 scale = Vector2(5, 5)
 
 [node name="Dwarf" parent="." instance=ExtResource("3_cxna6")]
+z_index = 1
 position = Vector2(48, 23)
-scale = Vector2(0.25, 0.25)
+scale = Vector2(4, 4)
